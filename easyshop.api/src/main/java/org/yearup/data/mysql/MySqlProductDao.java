@@ -23,25 +23,42 @@ public class MySqlProductDao extends MySqlDaoBase implements ProductDao
     {
         List<Product> products = new ArrayList<>();
 
+        // Corrected SQL: Added a clause for minPrice (price >= ?)
         String sql = "SELECT * FROM products " +
-                "WHERE (category_id = ? OR ? = -1) " +
-                "   AND (price <= ? OR ? = -1) " +
-                "   AND (color = ? OR ? = '') ";
+                "WHERE (? = -1 OR category_id = ?) " +         // Parameter 1 & 2 for categoryId
+                "   AND (? = -1.0 OR price >= ?) " +           // Parameter 3 & 4 for minPrice
+                "   AND (? = -1.0 OR price <= ?) " +           // Parameter 5 & 6 for maxPrice
+                "   AND (? = '' OR color = ?) ";               // Parameter 7 & 8 for color
 
+        // Adjust the default values for BigDecimal parameters to match the SQL check
         categoryId = categoryId == null ? -1 : categoryId;
-        minPrice = minPrice == null ? new BigDecimal("-1") : minPrice;
-        maxPrice = maxPrice == null ? new BigDecimal("-1") : maxPrice;
+        minPrice = minPrice == null ? new BigDecimal("-1.0") : minPrice; // Use -1.0 for BigDecimal comparison
+        maxPrice = maxPrice == null ? new BigDecimal("-1.0") : maxPrice; // Use -1.0 for BigDecimal comparison
         color = color == null ? "" : color;
 
         try (Connection connection = getConnection())
         {
             PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setInt(1, categoryId);
-            statement.setInt(2, categoryId);
-            statement.setBigDecimal(3, minPrice);
-            statement.setBigDecimal(4, minPrice);
-            statement.setString(5, color);
-            statement.setString(6, color);
+
+            // Bind parameters according to the new SQL
+            int paramIndex = 1;
+
+            // categoryId parameters
+            statement.setInt(paramIndex++, categoryId);
+            statement.setInt(paramIndex++, categoryId);
+
+            // minPrice parameters
+            statement.setBigDecimal(paramIndex++, minPrice);
+            statement.setBigDecimal(paramIndex++, minPrice);
+
+            // maxPrice parameters
+            statement.setBigDecimal(paramIndex++, maxPrice);
+            statement.setBigDecimal(paramIndex++, maxPrice);
+
+            // color parameters
+            statement.setString(paramIndex++, color);
+            statement.setString(paramIndex++, color);
+
 
             ResultSet row = statement.executeQuery();
 
