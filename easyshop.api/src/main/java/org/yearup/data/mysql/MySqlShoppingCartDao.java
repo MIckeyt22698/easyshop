@@ -11,7 +11,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 @Component
 public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDao {
 
@@ -24,7 +23,7 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
         ShoppingCart cart = new ShoppingCart();
         cart.setUserId(userId);
 
-        String sql = "SELECT sc.product_id, sc.quantity, p.name, p.price " +
+        String sql = "SELECT sc.product_id, sc.quantity, p.name, p.price, p.image_url " +
                 "FROM shopping_cart sc " +
                 "JOIN products p ON sc.product_id = p.product_id " +
                 "WHERE sc.user_id = ?";
@@ -42,6 +41,7 @@ public class MySqlShoppingCartDao extends MySqlDaoBase implements ShoppingCartDa
                 product.setProductId(rs.getInt("product_id"));
                 product.setName(rs.getString("name"));
                 product.setPrice(rs.getBigDecimal("price"));
+                product.setImageUrl(rs.getString("image_url"));  // <-- Set image URL here
 
                 item.setProduct(product);
                 item.setQuantity(rs.getInt("quantity"));
