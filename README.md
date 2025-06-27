@@ -1,5 +1,9 @@
 # 🛒 Shopping Cart Backend API Overview
 
+![Build Status](https://img.shields.io/github/actions/workflow/status/Mickeyt22698/easyshop/maven.yml?branch=main)
+![Java Version](https://img.shields.io/badge/java-17-blue)
+![License](https://img.shields.io/github/license/yourusername/yourrepo)
+
 ## 🎯 Purpose
 Backend REST API to manage **Products**, **Categories**, and **User Shopping Carts** with secure authentication and role-based access control.
 
@@ -47,6 +51,20 @@ Backend REST API to manage **Products**, **Categories**, and **User Shopping Car
 
 ---
 
+## 🖼️ Screenshots
+
+<!-- Add screenshots here -->
+
+![Screenshot 2025-06-27 115810](https://github.com/user-attachments/assets/9aa60005-3f56-4eb8-ad44-f9ce4af88a40)
+  
+*Shopping cart view showing added products*
+
+! ![Screenshot 2025-06-27 120333](https://github.com/user-attachments/assets/b353fb3f-4090-437a-925e-ae050efa0727)
+
+*Product details with add to cart button*
+
+---
+
 ## 🏁 Getting Started
 
 1. Setup MySQL and configure the database connection in `application.properties`.  
@@ -54,3 +72,4 @@ Backend REST API to manage **Products**, **Categories**, and **User Shopping Car
    ```bash
    mvn clean install
    mvn spring-boot:run
+
